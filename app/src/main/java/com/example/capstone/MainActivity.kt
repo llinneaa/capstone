@@ -1,13 +1,11 @@
 package com.example.capstone
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
-
-
-// app imports
 
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
@@ -25,6 +23,9 @@ import android.util.Log
 import android.graphics.Bitmap
 import com.spotify.protocol.types.ImageUri
 import com.spotify.protocol.types.Info
+import android.R
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,139 +41,45 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
 
+    override fun onStart() {
+        super.onStart()
 
-enum class PlayingState {
-    PAUSED, PLAYING, STOPPED
-}
+        val connectionParams = ConnectionParams.Builder(clientId)
+            .setRedirectUri(redirectUri)
+            .showAuthView(true)
+            .build()
 
-object SpotifyService {
-    private const val CLIENT_ID = "6febf7768beb40168b374e267504ec16"
-    private const val  REDIRECT_URI = "com.example.capstone://callback"
-    private var spotifyAppRemote: SpotifyAppRemote? = null
-    private var connectionParams: ConnectionParams = ConnectionParams.Builder(CLIENT_ID)
-        .setRedirectUri(REDIRECT_URI)
-        .showAuthView(true)
-        .build()
-    fun connect(context: Context, handler: (connected: Boolean) -> Unit) {
-        if (spotifyAppRemote?.isConnected == true) {
-            handler(true)
-            return
-        }
-        val connectionListener = object : Connector.ConnectionListener {
-            override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
-                this@SpotifyService.spotifyAppRemote = spotifyAppRemote
-                handler(true)
+        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
+            override fun onConnected(appRemote: SpotifyAppRemote) {
+                spotifyAppRemote = appRemote
+                Log.d("MainActivity", "Connected! Yay!")
+                // Now you can start interacting with App Remote
+                connected()
             }
+
             override fun onFailure(throwable: Throwable) {
-                Log.e("SpotifyService", throwable.message, throwable)
-                handler(false)
+                Log.e("MainActivity", throwable.message, throwable)
+                // Something went wrong when attempting to connect! Handle errors here
             }
-
-        }
-        fun play(uri: String) {
-            spotifyAppRemote?.playerApi?.play(uri)
-        }
-
-        fun resume() {
-            spotifyAppRemote?.playerApi?.resume()
-        }
-
-        fun pause() {
-            spotifyAppRemote?.playerApi?.pause()
-        }
-
-        fun playingState(handler: (PlayingState) -> Unit) {
-            spotifyAppRemote?.playerApi?.playerState?.setResultCallback { result ->
-                if (result.track.uri == null) {
-                    handler(PlayingState.STOPPED)
-                } else if (result.isPaused) {
-                    handler(PlayingState.PAUSED)
-                } else {
-                    handler(PlayingState.PLAYING)
-                }
-            }
-        }
-        SpotifyAppRemote.connect(context, connectionParams, connectionListener)
-
-        fun getCurrentTrack(handler: (track: Track) -> Unit) {
-            spotifyAppRemote?.playerApi?.playerState?.setResultCallback { result ->
-                handler(result.track)
-            }
-        }
-
-        fun getImage(imageUri: ImageUri, handler: (Bitmap) -> Unit)  {
-            spotifyAppRemote?.imagesApi?.getImage(imageUri)?.setResultCallback {
-                handler(it)
-            }
-        }
-
-        fun getCurrentTrackImage(handler: (Bitmap) -> Unit)  {
-            getCurrentTrack {
-                getImage(it.imageUri) {
-                    handler(it)
-                }
-            }
-        }
-
-        fun suscribeToChanges(handler: (Track) -> Unit) {
-            spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
-                handler(it.track)
-            }
-        }
-
-        fun disconnect() {
-            SpotifyAppRemote.disconnect(spotifyAppRemote)
-        }
-    }
-}
-
-class PlayerActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setupViews()
-        setupListeners()
+        })
     }
 
-    private fun setupViews () {
-        SpotifyService.playingState {
-            when(it) {
-                PlayingState.PLAYING -> showPauseButton()
-                PlayingState.STOPPED -> showPlayButton()
-                PlayingState.PAUSED -> showResumeButton()
-            }
+    private fun connected() {
+//        spotifyAppRemote.playerApi.play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL")
+
+        spotifyAppRemote.playerApi.subscribeToPlayerState().setEventCallback {
+            val track: Track = it.track
+            Log.d("MainActivity", track.name + " by " + track.artist.name)
         }
     }
 
-    private fun setupListeners() {
-        playButton.setOnClickListener {
-            SpotifyService.play("spotify:track:5HkW47BxKNgkW2bSNghlNa")
-            showPauseButton()
-        }
-
-        pauseButton.setOnClickListener {
-            SpotifyService.pause()
-            showResumeButton()
-        }
-
-        resumeButton.setOnClickListener {
-            SpotifyService.resume()
-            showPauseButton()
-        }
-
-        SpotifyService.suscribeToChanges {
-            SpotifyService.getImage(it.imageUri){
-                trackImageView.setImageBitmap(it)
-            }
-        }
-    }
 
     override fun onStop() {
         super.onStop()
-        SpotifyService.disconnect()
-    }
+        spotifyAppRemote?.let {
+            SpotifyAppRemote.disconnect(it)
+        }
 
+    }
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "83636974103",
+    "firebase_url": "https://linnea-capstone.firebaseio.com",
+    "project_id": "linnea-capstone",
+    "storage_bucket": "linnea-capstone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83636974103:android:238c9bddac52d412efe252",
+        "android_client_info": {
+          "package_name": "com.example.capstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83636974103-ebv146o5chlirorgphj2f2rv67cf2kv4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.capstone",
+            "certificate_hash": "fbaa6b208019b4af8bd4569e1844e8fb87390763"
+          }
+        },
+        {
+          "client_id": "83636974103-pe6d155f5b4vgosl4675284vrk1ncfu2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOP4xQBKiyUZdKbJ0UxLKR3ncT3uI52os"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83636974103-pe6d155f5b4vgosl4675284vrk1ncfu2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
