@@ -26,7 +26,35 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-    }
 }
 
+<<<<<<< HEAD
+=======
+
+object SpotifyService {
+    private const val CLIENT_ID = "6febf7768beb40168b374e267504ec16"
+    private const val  REDIRECT_URI = "com.linnea.capstone://callback"
+    private var spotifyAppRemote: SpotifyAppRemote? = null
+    private var connectionParams: ConnectionParams = ConnectionParams.Builder(CLIENT_ID)
+        .setRedirectUri(REDIRECT_URI)
+        .showAuthView(true)
+        .build()
+    fun connect(context: Context, handler: (connected: Boolean) -> Unit) {
+        if (spotifyAppRemote?.isConnected == true) {
+            handler(true)
+            return
+        }
+        val connectionListener = object : Connector.ConnectionListener {
+            override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
+                this@SpotifyService.spotifyAppRemote = spotifyAppRemote
+                handler(true)
+            }
+            override fun onFailure(throwable: Throwable) {
+                Log.e("SpotifyService", throwable.message, throwable)
+                handler(false)
+            }
+        }
+        SpotifyAppRemote.connect(context, connectionParams, connectionListener)
+    }
+}
+>>>>>>> parent of 093742c... updated main activity
