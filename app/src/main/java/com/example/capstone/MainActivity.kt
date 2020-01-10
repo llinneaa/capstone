@@ -2,6 +2,10 @@ package com.example.capstone
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 // app imports
 
@@ -10,9 +14,18 @@ import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
 
 
+
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
+
+import android.content.Context
+import android.util.Log
+
+import android.graphics.Bitmap
+import com.spotify.protocol.types.ImageUri
+import com.spotify.protocol.types.Info
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -82,6 +95,36 @@ object SpotifyService {
             }
         }
         SpotifyAppRemote.connect(context, connectionParams, connectionListener)
+
+        fun getCurrentTrack(handler: (track: Track) -> Unit) {
+            spotifyAppRemote?.playerApi?.playerState?.setResultCallback { result ->
+                handler(result.track)
+            }
+        }
+
+        fun getImage(imageUri: ImageUri, handler: (Bitmap) -> Unit)  {
+            spotifyAppRemote?.imagesApi?.getImage(imageUri)?.setResultCallback {
+                handler(it)
+            }
+        }
+
+        fun getCurrentTrackImage(handler: (Bitmap) -> Unit)  {
+            getCurrentTrack {
+                getImage(it.imageUri) {
+                    handler(it)
+                }
+            }
+        }
+
+        fun suscribeToChanges(handler: (Track) -> Unit) {
+            spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
+                handler(it.track)
+            }
+        }
+
+        fun disconnect() {
+            SpotifyAppRemote.disconnect(spotifyAppRemote)
+        }
     }
 }
 
@@ -89,7 +132,7 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player)
+        setContentView(R.layout.activity_main)
         setupViews()
         setupListeners()
     }
@@ -119,5 +162,17 @@ class PlayerActivity : AppCompatActivity() {
             SpotifyService.resume()
             showPauseButton()
         }
+
+        SpotifyService.suscribeToChanges {
+            SpotifyService.getImage(it.imageUri){
+                trackImageView.setImageBitmap(it)
+            }
+        }
     }
+
+    override fun onStop() {
+        super.onStop()
+        SpotifyService.disconnect()
+    }
+
 }
