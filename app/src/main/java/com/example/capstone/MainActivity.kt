@@ -3,28 +3,17 @@ package com.example.capstone
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+//import com.google.gson.Gson ...... serializing into JSON
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
-
-import com.spotify.android.appremote.api.ConnectionParams
-import com.spotify.android.appremote.api.Connector
-import com.spotify.android.appremote.api.SpotifyAppRemote
-
-
-
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
-
 import android.content.Context
-import android.util.Log
+//import android.util.Log
 
 import android.graphics.Bitmap
 import com.spotify.protocol.types.ImageUri
 import com.spotify.protocol.types.Info
-import android.R
-
+//import android.R
 
 
 
