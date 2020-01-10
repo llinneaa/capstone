@@ -14,6 +14,11 @@ class PlayerActivity : AppCompatActivity() {
         setupListeners()
     }
 
+    override fun onStop() {
+        super.onStop()
+        SpotifyService.disconnect()
+    }
+
     private fun setupViews () {
         SpotifyService.playingState {
             when(it) {
@@ -22,6 +27,18 @@ class PlayerActivity : AppCompatActivity() {
                 PlayingState.PAUSED -> showResumeButton()
             }
         }
+    }
+
+    fun showPauseButton() {
+        pauseButton.visibility = View.VISIBLE
+    }
+
+    fun showPlayButton() {
+        playButton.visibility = View.VISIBLE
+    }
+
+    fun showResumeButton() {
+        resumeButton.visibility = View.VISIBLE
     }
 
     private fun setupListeners() {
@@ -40,16 +57,13 @@ class PlayerActivity : AppCompatActivity() {
             showPauseButton()
         }
 
-        SpotifyService.suscribeToChanges {
-            SpotifyService.getImage(it.imageUri){
-                trackImageView.setImageBitmap(it)
-            }
-        }
+//        SpotifyService.suscribeToChanges {
+//            SpotifyService.getImage(it.imageUri){
+//                trackImageView.setImageBitmap(it)
+//            }
+//        }
     }
 
-    override fun onStop() {
-        super.onStop()
-        SpotifyService.disconnect()
-    }
+
 
 }
