@@ -16,7 +16,7 @@ import com.spotify.protocol.types.PlayerState;
 
 object SpotifyService {
     private const val CLIENT_ID = "6febf7768beb40168b374e267504ec16"
-    private const val  REDIRECT_URI = "com.example.capstone://"
+    private const val  REDIRECT_URI = "com.example.capstone://callback"
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private var connectionParams: ConnectionParams = ConnectionParams.Builder(CLIENT_ID)
@@ -86,11 +86,11 @@ object SpotifyService {
         }
     }
 
-    fun suscribeToChanges(handler: (Track) -> Unit) {
-        spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
-            handler(it.track)
-        }
-    }
+//    fun suscribeToChanges(handler: (Track) -> Unit) {
+//        spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
+//            handler(it.track)
+//        }
+//    }
 
     fun disconnect() {
         SpotifyAppRemote.disconnect(spotifyAppRemote)

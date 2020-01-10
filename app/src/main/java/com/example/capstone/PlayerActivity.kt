@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_player.*
+import java.lang.System
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -43,7 +44,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         playButton.setOnClickListener {
-            SpotifyService.play("spotify:track:5HkW47BxKNgkW2bSNghlNa")
+            SpotifyService.play("spotify:track:1rfofaqEpACxVEHIZBJe6W")
             showPauseButton()
         }
 

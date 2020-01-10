@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:exported="true"
         android:icon="@mipmap/ic_launcher"
-        android:label=".Capstone"
+        android:label="Capstone"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity" >
