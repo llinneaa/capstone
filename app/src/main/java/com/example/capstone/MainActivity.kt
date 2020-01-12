@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+//        SpotifyApi()
+
     }
 
 //    override fun onStart() {

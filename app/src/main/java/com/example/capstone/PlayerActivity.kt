@@ -46,6 +46,7 @@ class PlayerActivity : AppCompatActivity() {
         playButton.setOnClickListener {
             SpotifyService.play("spotify:track:1rfofaqEpACxVEHIZBJe6W")
             showPauseButton()
+            SpotifyAPI()
         }
 
         pauseButton.setOnClickListener {
@@ -58,11 +59,7 @@ class PlayerActivity : AppCompatActivity() {
             showPauseButton()
         }
 
-//        SpotifyService.suscribeToChanges {
-//            SpotifyService.getImage(it.imageUri){
-//                trackImageView.setImageBitmap(it)
-//            }
-//        }
+
     }
 
 
