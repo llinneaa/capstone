@@ -1,26 +1,62 @@
 package com.example.capstone
 import com.google.gson.Gson
+import khttp.responses.Response
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import org.jetbrains.anko.custom.async
+import org.jetbrains.anko.doAsync
+import org.json.JSONObject
+import java.net.URL
+import kotlin.reflect.typeOf
 
 class SpotifyAPI {
-    val url = "https://api.spotify.com/v1/search"
-    val verb = "GET"
+    val url = "https://api.spotify.com/v1/me/tracks"
+    //    val verb = "GET"
     val key1 = "market"
     val val1 = "US"
     val key2 = "limit"
-    val val2 = "50"
+    val val2 = "1"
     val key3 = "offset"
     val val3 = "5"
-    val key4 = "Token"
-    private val val4 = "BQB1ouxm_6Rfs3HQMIAeXK7iNxmLvuTGAFD63FmziCEJLIYuSb5FyBSq8b8bSTlT_jdhS4VfajE3Rfl2SL9I2n2MEfpSySpZTCFeQYcwhGvQzy3_z9x41bpV8Erygxh73veQVDP0Kh3ta9-4LDBFJ_-c0w7BSByTjdJw"
+    private val val4 =
+        "Bearer BQDbNMOwBqHZ7mmfow6oB8HjixhlEsznxJ0dJOqNKLGgUJqdvoqpYYmrv1yvKbahGfiwPyN7aBv9sBTmL6wHIIGlwI2-GRjwPB58_OrdIYVU5fsgtqoTBFSwB3dsCV7F3llfT5RU6ILrEMjxcgClgAic8TOhRaxmkhBJ"
 
-    fun onCreate(): String? {
-        val response : khttp.responses.Response = khttp.get(
-            url = url,
-            params = mapOf(
-                key1 to val1, key2 to val2, key3 to val3, key4 to val4
-            )
-        );
-        val parsed = Gson().toJson(response).toString()
-        return parsed
+    fun onCreate(): String {
+        var responseJson = "";
+        var requestUrl = url;
+        requestUrl += "?";
+        requestUrl += key1;
+        requestUrl += "=";
+        requestUrl += val1;
+        requestUrl += "&";
+        requestUrl += key2;
+        requestUrl += "=";
+        requestUrl += val2;
+        requestUrl += "&";
+        requestUrl += key3;
+        requestUrl += "=";
+        requestUrl += val3;
+
+        val headerMap = mutableMapOf<String, String>();
+        headerMap.put("Authorization", val4);
+        headerMap.put("Accept", "application/json");
+        headerMap.put("Content-Type", "application/json");
+
+        var finished = false;
+        runBlocking {
+                GlobalScope.launch {
+                    var response = khttp.get(url = requestUrl, headers = headerMap);
+                    var track = response.jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("track").getString("uri");
+                    responseJson = track;
+                    finished = true;
+                }
+            }
+
+            while(!finished){
+                Thread.sleep(100);
+            }
+
+            return responseJson;
+
     }
 }

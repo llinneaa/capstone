@@ -42,9 +42,15 @@ class PlayerActivity : AppCompatActivity() {
         resumeButton.visibility = View.VISIBLE
     }
 
+    fun getTracks() {
+        SpotifyAPI().onCreate().map {
+
+        }
+    }
+
     private fun setupListeners() {
         playButton.setOnClickListener {
-            SpotifyService.play("spotify:track:5TV5x7u5Tnx2i47ccKXVex")
+            SpotifyService.play(SpotifyAPI().onCreate())
             showPauseButton()
 //            SpotifyAPI()
         }

@@ -86,11 +86,6 @@ object SpotifyService {
         }
     }
 
-//    fun suscribeToChanges(handler: (Track) -> Unit) {
-//        spotifyAppRemote?.playerApi?.subscribeToPlayerState()?.setEventCallback {
-//            handler(it.track)
-//        }
-//    }
 
     fun disconnect() {
         SpotifyAppRemote.disconnect(spotifyAppRemote)
