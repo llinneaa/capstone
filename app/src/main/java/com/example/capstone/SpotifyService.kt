@@ -13,7 +13,6 @@ import com.spotify.protocol.types.PlayerState;
 
 
 
-
 object SpotifyService {
     private const val CLIENT_ID = "6febf7768beb40168b374e267504ec16"
     private const val  REDIRECT_URI = "com.example.capstone://callback"

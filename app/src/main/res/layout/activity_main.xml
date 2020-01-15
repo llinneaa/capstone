@@ -4,23 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context=".MainActivity">
+
     <Button
         android:id="@+id/connectButton"
         android:layout_width="164dp"
         android:layout_height="46dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="219dp"
+        android:layout_marginEnd="120dp"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="#1DB954"
+        android:background="@drawable/button_styling"
+        android:cursorVisible="true"
+        android:ellipsize="none"
+        android:fontFamily="@font/montserrat"
         android:onClick="@+connectButton"
-        android:text="Connect"
+        android:text="Login with Spotify"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.681"
+        app:layout_constraintVertical_bias="0.479"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

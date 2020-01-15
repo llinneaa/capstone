@@ -19,7 +19,7 @@ class SpotifyAPI {
     val key3 = "offset"
     val val3 = "5"
     private val val4 =
-        "Bearer BQDbNMOwBqHZ7mmfow6oB8HjixhlEsznxJ0dJOqNKLGgUJqdvoqpYYmrv1yvKbahGfiwPyN7aBv9sBTmL6wHIIGlwI2-GRjwPB58_OrdIYVU5fsgtqoTBFSwB3dsCV7F3llfT5RU6ILrEMjxcgClgAic8TOhRaxmkhBJ"
+        "Bearer BQCjn57wzfv71io7CUmDw-aD44ld9YutbleqpqH7AdsMWEmY1A3bvNWDefnUpz1qSzrkBYKfz2Kz-emrlmmys6nim9RWBIRYeCdxjX54ASphhcrEGXGvovWS2OTEnmAcBttUhZGMqLmMHpllWWqz2YBxLg70H6cCYl9U"
 
     fun onCreate(): String {
         var responseJson = "";
