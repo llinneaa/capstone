@@ -1,5 +1,6 @@
 package com.example.capstone
 
+import android.content.Intent
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log

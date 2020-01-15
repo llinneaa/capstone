@@ -16,7 +16,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.spotify.protocol.types.ImageUri
 import com.spotify.protocol.types.Info
-//import android.R
 
 
 
